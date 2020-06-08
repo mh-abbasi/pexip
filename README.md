@@ -6,5 +6,5 @@
 4. Navigate to frontend directory
 5. Run `npm install`
 6. First run `npm run start` or `yarn start` in backend directory
-7. Then run `npm run start` or `yarn start` in frontend directory
+7. Then run `npm start` or `yarn start` in frontend directory
 8. Login with any username
