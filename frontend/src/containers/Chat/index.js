@@ -4,12 +4,11 @@ import {isJson} from "../../common";
 import {WebSocketProvider, WebSocketContext} from "../../context/WebSocket";
 import {TYPES, ACTIONS} from '../../constants'
 import Login from "../../components/Login";
+import ConversationBox from "../../components/ConversationBox";
 console.log(TYPES, ACTIONS)
 const Chat = () => {
-    const [showParticipants, setShowParticipants] = useState(false)
-    const [showMessages, setShowMessages] = useState(true)
     const {ws} = useContext(WebSocketContext)
-    const [userId, setUserId] = useState(null)
+    const [userName, setUserName] = useState(null)
     const [messages, setMessages] = useState([])
     const [participants, setParticipants] = useState([])
 
@@ -21,7 +20,7 @@ const Chat = () => {
                 case TYPES.NEW_MESSAGE:
                     break
                 case TYPES.CURRENT_USER:
-                    setUserId(parsed.user.id)
+                    setUserName(parsed.user.username)
                     setParticipants(parsed.participants)
                     setMessages(parsed.messages)
                     break
@@ -59,14 +58,17 @@ const Chat = () => {
 
     return (
         <>
-            {!userId
+            {!userName
                 ?
                 (<Login
                     onSubmit={onLogin}
                 />)
                 :
                 (
-                    <h1>panel</h1>
+                    <ConversationBox
+                        messages={messages}
+                        participants={participants}
+                    />
                 )}
         </>
     )
