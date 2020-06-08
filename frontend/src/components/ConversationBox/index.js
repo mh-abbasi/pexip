@@ -1,4 +1,6 @@
 import React, {useState} from "react"
+import styles from './ConversationBox.module.css'
+import ParticipantsList from "../ParticipantsList";
 
 const ConversationBox = ({messages, participants}) => {
     const [showParticipants, setShowParticipants] = useState(false)
@@ -8,7 +10,9 @@ const ConversationBox = ({messages, participants}) => {
     console.log(messages)
     console.log(participants)
     return (
-        <h1>panel</h1>
+        <div className={styles.container}>
+            <ParticipantsList isShowing={showParticipants} participants={participants} />
+        </div>
     )
 }
 
