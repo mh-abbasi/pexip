@@ -102,6 +102,7 @@ const Chat = () => {
                 :
                 (
                     <ConversationBox
+                        username={userName}
                         onSubmit={onSubmit}
                         messages={messages}
                         inputMessage={inputMessage}

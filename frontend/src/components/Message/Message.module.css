@@ -6,7 +6,8 @@
 }
 
 .to {
-    background-color: #7DCAC7;
+    border-left: 2px solid #CCC;
+    padding-left: 5px;
 }
 
 
