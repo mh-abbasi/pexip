@@ -12,6 +12,7 @@ const Messages = ({messages, showMessages}) => {
                     )
                 })
             )}
+
         </div>
     )
 }

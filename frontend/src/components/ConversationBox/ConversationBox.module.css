@@ -10,3 +10,12 @@
     border-radius: 10px;
     box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
 }
+
+.messagesContainer {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-shrink: inherit;
+    flex-direction: column;
+    background-color: #E5F3F6;
+}

@@ -8,7 +8,6 @@ const ParticipantsList = ({isShowing, participants}) => {
     participants.forEach(participant => {
         participantsElems.push(<ParticipantItem participant={participant} key={participant} />)
     })
-    console.log(participantsElems)
     return (
         <div className={`${styles.container} ${isActive}`}>
             {participantsElems.length && (participantsElems)}

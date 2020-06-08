@@ -86,13 +86,14 @@ const handleNewMessage = (payload, ws) => {
         const message = {
             id : shortid.generate(),
             message: payload.message,
-            timestamp : Date.now()
+            timestamp : Date.now(),
+            from: username
         }
         const shouldBroadcast = {
             type: TYPES.NEW_MESSAGE,
             message
         }
-        sendAll(shouldBroadcast)
+        sendAll(shouldBroadcast, wss)
     }
 }
 const handleIncomingMessage = (message, ws) => {
