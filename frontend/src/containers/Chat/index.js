@@ -16,6 +16,7 @@ const Chat = () => {
         const handleIncomingMessage = ({data}) => {
             console.log('incoming')
             console.log(data)
+            let newParticipants = new Set([])
             if( isJson(data) ) {
                 const parsed = JSON.parse(data)
                 switch (parsed.type) {
@@ -23,7 +24,7 @@ const Chat = () => {
                         break
                     case TYPES.CURRENT_USER:
                         setUserName(parsed.user.username)
-                        const newParticipants = new Set([])
+                        newParticipants = new Set([])
                         parsed.participants.map(participant => {
                             newParticipants.add(participant.username)
                         })
@@ -32,19 +33,26 @@ const Chat = () => {
                         setParticipants(newParticipants)
                         break
                     case TYPES.USER_LOGGED_IN:
-                        if( !participants.has(parsed.user.username ) ) {
-                            const newParticipants = new Set([...participants])
-                            newParticipants.add(parsed.user.username)
-                            console.log('new Set')
-                            console.log(newParticipants)
-                            setParticipants(newParticipants)
-                        } else {
-                            alert('boode')
-                        }
+                        newParticipants = new Set([...participants])
+                        newParticipants.add(parsed.user.username)
+                        console.log('new Set')
+                        console.log(newParticipants)
+                        setParticipants(newParticipants)
                         break
                     case TYPES.USER_DISCONNECTED:
+                        console.log('disconnected')
+                        console.log(parsed)
+                        newParticipants = new Set([...participants])
+                        newParticipants.delete(parsed.username)
+                        setParticipants(newParticipants)
                         break
                     case TYPES.MESSAGE_EDITED:
+                        const editedMessages = messages
+                        const messageIndex = editedMessages.findIndex(message => message.id === parsed.message.id)
+                        if( messageIndex > -1 ) {
+                            editedMessages[messageIndex] = parsed.message
+                        }
+                        setMessages(editedMessages)
                         break
                     case TYPES.MESSAGE_DELETED:
                         break

@@ -109,9 +109,9 @@ const handleIncomingMessage = (message, ws) => {
 
 wss.on('connection', function connection(ws) {
     ws.id = uuid()
-    const {id, userName} = ws
     ws.on('message', message => handleIncomingMessage(message, ws));
     ws.on('close', event => {
+        const {id, userName} = ws
         let found = false
         if( ws.userName ) {
             wss.clients.forEach(client => {
@@ -124,7 +124,7 @@ wss.on('connection', function connection(ws) {
                 console.log('Socket Disconnected')
                 sendAll({
                     type: TYPES.USER_DISCONNECTED,
-                    userName,
+                    username: userName,
                     id
                 }, wss);
             }
