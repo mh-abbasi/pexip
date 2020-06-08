@@ -3,19 +3,66 @@
     height: 80vh;
     max-width: 1200px;
     display: flex;
-    flex-flow: row;
+    flex-flow: column;
     margin: 10vh auto;
-    background-color: #FFF;
-    overflow: hidden;
+    background-color: #f2f2f2;
+    overflow-x: hidden;
+    overflow-y: auto;
     border-radius: 10px;
     box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.chatContainer {
+    display: flex;
+    flex-flow: row;
+    flex: auto;
+    overflow: hidden;
 }
 
 .messagesContainer {
     flex: 1;
     overflow: hidden;
+    overflow-y: auto;
     display: flex;
     flex-shrink: inherit;
     flex-direction: column;
-    background-color: #E5F3F6;
+    background-color: #FFFFFF;
+}
+
+.tabs {
+    display: none;
+}
+
+.tab {
+    display: flex;
+    flex: auto;
+    justify-content: center;
+    cursor: pointer;
+    background-color: #f2f2f2;
+    overflow: hidden;
+    padding: 10px;
+}
+
+.tab.activeTab {
+    background-color: #FFF;
+    border-radius: 5px 5px 0 0;
+}
+
+.title {
+    text-align: center;
+    padding: 15px 10px;
+}
+
+.title h4 {}
+@media (max-width: 992px) {
+    .messagesContainer {
+        display: none;
+    }
+    .messagesContainer.active {
+        background-color: #FFF;
+        display: flex;
+    }
+    .tabs {
+        display: flex;
+    }
 }

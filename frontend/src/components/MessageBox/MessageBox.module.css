@@ -1,15 +1,18 @@
 .container {
     display: flex;
     position: relative;
+    padding: 10px;
+    width: 100%;
 }
 
 .input {
     background-color: #FFF;
     width: 100%;
     display: block;
-    padding: 7px 130px 7px 7px;
-    border: none;
+    padding: 7px;
+    border: 1px solid #CCC;
     outline: none;
+    border-radius: 4px;
     resize: vertical;
     min-height: 50px;
     max-height: 150px;

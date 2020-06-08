@@ -3,7 +3,7 @@ import styles from './ParticipantsList.module.css'
 import ParticipantItem from "../ParticipantItem";
 
 const ParticipantsList = ({isShowing, participants}) => {
-    const isActive = isShowing ? styles.active : styles.active
+    const isActive = isShowing ? styles.active : ''
     const participantsElems = []
     participants.forEach(participant => {
         participantsElems.push(<ParticipantItem participant={participant} key={participant} />)

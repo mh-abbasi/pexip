@@ -11,12 +11,7 @@ const Chat = () => {
     const [userName, setUserName] = useState(null)
     const [editingMessage, setEditingMessage] = useState(null)
     const [inputMessage, setInputMessage] = useState('')
-    const [messages, setMessages] = useState([{
-        id: 'qdkjfwefouwnje',
-        from: 'system',
-        timestamp: Date.now(),
-        message: 'Welcome!'
-    }])
+    const [messages, setMessages] = useState([])
     const [participants, setParticipants] = useState(new Set())
 
     const handleIncomingMessage = ({data}) => {
@@ -49,14 +44,22 @@ const Chat = () => {
                     })
                     break
                 case TYPES.MESSAGE_EDITED:
-                    const editedMessages = messages
-                    const messageIndex = editedMessages.findIndex(message => message.id === parsed.message.id)
-                    if( messageIndex > -1 ) {
-                        editedMessages[messageIndex] = parsed.message
-                    }
-                    setMessages(editedMessages)
+                    setMessages(prevState => {
+                        const editedMessages = prevState
+                        const messageIndex = editedMessages.findIndex(message => message.id === parsed.message.id)
+                        if( messageIndex > -1 ) {
+                            editedMessages[messageIndex].message = parsed.message.message
+                        }
+                        return [...editedMessages]
+                    })
+                    setInputMessage('')
+                    setEditingMessage(null)
                     break
                 case TYPES.MESSAGE_DELETED:
+                    setMessages(prevState => {
+                        return prevState.filter(message => message.id !== parsed.id)
+                    })
+
                     break
                 default:
                     console.log('Unsupported type from server', parsed)
@@ -80,16 +83,44 @@ const Chat = () => {
         }));
     }
 
-    const onSubmit = (payload) => {
-        if( !editingMessage ) {
-            ws.send(JSON.stringify({
-                payload: {
-                    message: payload
-                },
-                action: ACTIONS.SEND_MESSAGE
-            }));
+    const onSubmit = (text) => {
+        if( text.trim().length ) {
+            if( !editingMessage ) {
+                ws.send(JSON.stringify({
+                    payload: {
+                        message: text
+                    },
+                    action: ACTIONS.SEND_MESSAGE
+                }));
+            } else {
+                console.log('edited')
+                ws.send(JSON.stringify({
+                    payload: {
+                        text,
+                        id: editingMessage
+                    },
+                    action: ACTIONS.EDIT_MESSAGE
+                }));
+            }
         }
-        console.log(payload)
+
+    }
+
+    const handleEditButton = id => {
+        setEditingMessage(id)
+        const message = messages.find(message=> message.id === id)
+        if( message ) {
+            setInputMessage(message.message.trim())
+        }
+    }
+    const handleDeleteButton = id => {
+        console.log('delete', id)
+        ws.send(JSON.stringify({
+            action: ACTIONS.DELETE_MESSAGE,
+            payload: {
+                id
+            }
+        }))
     }
 
     return (
@@ -102,9 +133,12 @@ const Chat = () => {
                 :
                 (
                     <ConversationBox
+                        handleEditButton={handleEditButton}
+                        handleDeleteButton={handleDeleteButton}
                         username={userName}
                         onSubmit={onSubmit}
                         messages={messages}
+                        editingMessage={editingMessage}
                         inputMessage={inputMessage}
                         setInputMessage={setInputMessage}
                         participants={participants}

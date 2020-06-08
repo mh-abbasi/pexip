@@ -7,10 +7,15 @@
     position: relative;
     float: left;
     border-right: 1px solid #ececec;
+    background-color: #FFF;
 }
 
 @media (max-width: 992px) {
-    .active {
-        display: block !important;
+    .container {
+        display: none;
+    }
+    .container.active {
+        display: block;
+        width: 100%;
     }
 }

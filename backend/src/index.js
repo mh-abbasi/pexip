@@ -96,6 +96,31 @@ const handleNewMessage = (payload, ws) => {
         sendAll(shouldBroadcast, wss)
     }
 }
+
+const handleDeleteMessage = (payload, ws) => {
+    if( ws.id && ws.userName ) {
+        const {id} = payload
+        const shouldBroadcast = {
+            type: TYPES.MESSAGE_DELETED,
+            id
+        }
+        sendAll(shouldBroadcast, wss)
+    }
+}
+
+const handleEditMessage = (payload, ws) => {
+    if( ws.id && ws.userName ) {
+        const {text, id} = payload
+        const shouldBroadcast = {
+            type: TYPES.MESSAGE_EDITED,
+            message: {
+                message: text,
+                id
+            }
+        }
+        sendAll(shouldBroadcast, wss)
+    }
+}
 const handleIncomingMessage = (message, ws) => {
     if(isJson(message)) {
         const {action, payload} = JSON.parse(message)
@@ -107,10 +132,10 @@ const handleIncomingMessage = (message, ws) => {
                 handleNewMessage(payload, ws)
                 break
             case ACTIONS.EDIT_MESSAGE:
-            // handleEditMessage(payload, ws)
+                handleEditMessage(payload, ws)
                 break
             case ACTIONS.DELETE_MESSAGE:
-            // handleDeleteMessage(payload, ws)
+                handleDeleteMessage(payload, ws)
                 break
             default:
                 ws.send(JSON.stringify({type: 'error', message: 'Unsupported action'}))

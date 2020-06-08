@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import styles from './MessageBox.module.css'
 
-const MessageBox = ({editingMessage, onSubmit, inputMessage, setInputMessage}) => {
+const MessageBox = ({onSubmit, inputMessage, setInputMessage}) => {
 
     const onChange = event => {
         setInputMessage(event.target.value)
@@ -9,6 +9,8 @@ const MessageBox = ({editingMessage, onSubmit, inputMessage, setInputMessage}) =
 
     const onKeyDown = (event) => {
         if( event.keyCode === 13 ) {
+            console.log('called')
+
             onSubmit(inputMessage.trim())
         }
     }

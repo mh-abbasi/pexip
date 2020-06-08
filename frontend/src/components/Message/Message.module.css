@@ -10,6 +10,25 @@
     padding-left: 5px;
 }
 
+.editButton {
+    margin-left: 10px;
+    padding: 4px 7px;
+    background-color: #5f5fd6;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #FFF;
+    cursor: pointer;
+}
+
+.deleteButton {
+    margin-left: 10px;
+    padding: 4px 7px;
+    background-color: #710000;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #FFF;
+    cursor: pointer;
+}
 
 .time {
     color: #949494;
