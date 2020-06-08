@@ -18,5 +18,11 @@
   "homepage": "https://github.com/mh-abbasi/pexip#readme",
   "devDependencies": {
     "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "shortid": "^2.2.15",
+    "uuid": "^8.1.0",
+    "ws": "^7.3.0"
   }
 }
