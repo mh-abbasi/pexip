@@ -17,14 +17,13 @@ const sortByKey = (array, key) => {
 }
 
 const sendAll = (payload, wss) => {
-    const {clients} = wss
-    for (let i=0; i < clients.length; i++) {
-        if( clients[i].userName ) {
-            clients[i].send(JSON.stringify({
+    wss.clients.forEach(client => {
+        if( client.userName ) {
+            client.send(JSON.stringify({
                 ...payload
             }));
         }
-    }
+    })
 }
 
 const isUserConnected = (userName, wss) => {

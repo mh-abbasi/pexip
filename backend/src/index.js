@@ -46,10 +46,12 @@ const handleLogin = (payload, ws) => {
         user = users[userIndex]
     }
 
-    ws.userName = user.username
     if( isUserConnected(user.username, wss) === -1 ) {
+        ws.userName = user.username
         console.log('New login from '+ user.username)
         const participants = getAllParticipants(users, wss)
+        console.log('participants')
+        console.log(participants)
         const userResponse = {
             type: TYPES.CURRENT_USER,
             user,
@@ -66,7 +68,8 @@ const handleLogin = (payload, ws) => {
         sendAll(shouldBroadcast, wss)
     }
     else {
-        console.log('User was connect from another device '+ user.username)
+        ws.userName = user.username
+        console.log('User was connected from another device '+ user.username)
         const participants = getAllParticipants(users, wss)
         const userResponse = {
             type: TYPES.CURRENT_USER,

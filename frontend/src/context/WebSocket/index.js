@@ -21,7 +21,6 @@ const WebSocketProvider = ({children}) => {
                     console.log('connection has an error', event)
                 });
                 ws.addEventListener('open', event => {
-                    console.log('connection opened')
                     setWsConnection(ws)
                 });
                 ws.addEventListener('close', event => {

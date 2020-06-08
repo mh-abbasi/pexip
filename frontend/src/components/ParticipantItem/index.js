@@ -4,7 +4,7 @@ import styles from './ParticipantItem.module.css'
 const ParticipantItem = ({participant}) => {
     return (
         <div className={styles.container}>
-            <span className={styles.username}>{participant.username}</span>
+            <span className={styles.username}>{participant}</span>
         </div>
     )
 }
