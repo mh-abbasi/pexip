@@ -1,0 +1,22 @@
+{
+  "name": "pexip-assignment-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "nodemon ./src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mh-abbasi/pexip.git"
+  },
+  "author": "Mohammad Hassan Abbasi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mh-abbasi/pexip/issues"
+  },
+  "homepage": "https://github.com/mh-abbasi/pexip#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
