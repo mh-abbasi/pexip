@@ -1,0 +1,24 @@
+.container {
+    display: flex;
+    margin-bottom: 15px;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.to {
+    background-color: #7DCAC7;
+}
+
+
+.time {
+    color: #949494;
+    font-size: 12px;
+}
+.sender {
+    font-weight: bold;
+}
+
+.message {
+    font-size: 14px;
+    margin-top: 5px;
+}

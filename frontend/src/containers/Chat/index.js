@@ -9,7 +9,12 @@ import ConversationBox from "../../components/ConversationBox";
 const Chat = () => {
     const {ws} = useContext(WebSocketContext)
     const [userName, setUserName] = useState(null)
-    const [messages, setMessages] = useState([])
+    const [messages, setMessages] = useState([{
+        id: 'qdkjfwefouwnje',
+        from: 'system',
+        timestamp: Date.now(),
+        message: 'Welcome!'
+    }])
     const [participants, setParticipants] = useState(new Set())
 
     useEffect(() => {
@@ -28,20 +33,14 @@ const Chat = () => {
                         parsed.participants.map(participant => {
                             newParticipants.add(participant.username)
                         })
-                        console.log('new Set')
-                        console.log(newParticipants)
                         setParticipants(newParticipants)
                         break
                     case TYPES.USER_LOGGED_IN:
                         newParticipants = new Set([...participants])
                         newParticipants.add(parsed.user.username)
-                        console.log('new Set')
-                        console.log(newParticipants)
                         setParticipants(newParticipants)
                         break
                     case TYPES.USER_DISCONNECTED:
-                        console.log('disconnected')
-                        console.log(parsed)
                         newParticipants = new Set([...participants])
                         newParticipants.delete(parsed.username)
                         setParticipants(newParticipants)
@@ -66,13 +65,6 @@ const Chat = () => {
             ws.addEventListener('message', handleIncomingMessage);
         }
     }, [participants, ws])
-
-    // useEffect(() => {
-    //     if( ws && ws.readyState ) {
-    //         ws.addEventListener('message', handleIncomingMessage);
-    //     }
-    //
-    // },[ws])
 
     const onLogin = (username) => {
         ws.send(JSON.stringify({

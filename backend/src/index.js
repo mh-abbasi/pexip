@@ -61,7 +61,7 @@ const handleLogin = (payload, ws) => {
         const shouldBroadcast = {
             type: TYPES.USER_LOGGED_IN,
             from: 'system',
-            timestamp: new Date(),
+            timestamp: Date.now(),
             user,
             message: user.username+ ' joined!'
         }
@@ -80,6 +80,21 @@ const handleLogin = (payload, ws) => {
     }
 }
 
+const handleNewMessage = (payload, ws) => {
+    if( ws.id && ws.userName ) {
+        const {userName: username} = ws
+        const message = {
+            id : shortid.generate(),
+            message: payload.message,
+            timestamp : Date.now()
+        }
+        const shouldBroadcast = {
+            type: TYPES.NEW_MESSAGE,
+            message
+        }
+        sendAll(shouldBroadcast)
+    }
+}
 const handleIncomingMessage = (message, ws) => {
     if(isJson(message)) {
         const {action, payload} = JSON.parse(message)
@@ -88,7 +103,7 @@ const handleIncomingMessage = (message, ws) => {
                 handleLogin(payload, ws)
                 break;
             case ACTIONS.SEND_MESSAGE:
-                // handleNewMessage(payload, ws)
+                handleNewMessage(payload, ws)
                 break
             case ACTIONS.EDIT_MESSAGE:
             // handleEditMessage(payload, ws)
