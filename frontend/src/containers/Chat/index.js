@@ -3,6 +3,7 @@ import styles from './Chat.module.css'
 import {isJson} from "../../common";
 import {WebSocketProvider, WebSocketContext} from "../../context/WebSocket";
 import {TYPES, ACTIONS} from '../../constants'
+import Login from "../../components/Login";
 console.log(TYPES, ACTIONS)
 const Chat = () => {
     const [showParticipants, setShowParticipants] = useState(false)
@@ -47,11 +48,22 @@ const Chat = () => {
 
     },[ws])
 
+    const onLogin = (username) => {
+        ws.send(JSON.stringify({
+            payload: {
+                username
+            },
+            action: ACTIONS.LOGIN
+        }));
+    }
+
     return (
         <>
             {!userId
                 ?
-                (<h1>login</h1>)
+                (<Login
+                    onSubmit={onLogin}
+                />)
                 :
                 (
                     <h1>panel</h1>

@@ -1,0 +1,37 @@
+.container {
+    width: 90%;
+    margin: 50px auto;
+    max-width: 400px;
+    background-color: #FFF;
+    border-radius: 7px;
+    padding: 33px 55px 33px 55px;
+    overflow: hidden;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.input {
+    font-size: 15px;
+    color: #555555;
+    line-height: 45px;
+    display: block;
+    width: 100%;
+    height: 45px;
+    background: transparent;
+    padding: 0 5px;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #ececec;
+}
+
+.submit {
+    background-color: #a64bf4;
+    color: #FFF;
+    width: 100%;
+    text-align: center;
+    border-radius: 5px;
+    border: 1px solid #CCC;
+    padding: 15px 7px;
+    font-weight: bold;
+    margin-top: 15px;
+    cursor: pointer;
+}
