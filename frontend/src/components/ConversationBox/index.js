@@ -17,7 +17,9 @@ const ConversationBox = ({messages, editingMessage, participants, username, onSu
                     <h4>Status Meeting Standup</h4>
                 </div>
                 <div className={styles.tabs}>
-                    <div className={`${styles.tab} ${tabToShow === TABS.PARTICIPANTS ? styles.activeTab : ''}`} onClick={() => setTabToShow(TABS.PARTICIPANTS)}>Participants</div>
+                    <div
+                        className={`${styles.tab} ${tabToShow === TABS.PARTICIPANTS ? styles.activeTab : ''}`}
+                        onClick={() => setTabToShow(TABS.PARTICIPANTS)}>Participants ({participants.size})</div>
                     <div className={`${styles.tab} ${tabToShow === TABS.MESSAGES ? styles.activeTab : ''}`} onClick={() => setTabToShow(TABS.MESSAGES)}>Chat</div>
                 </div>
                 <div className={styles.chatContainer}>

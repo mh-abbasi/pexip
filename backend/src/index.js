@@ -60,12 +60,19 @@ const handleLogin = (payload, ws) => {
         ws.send(JSON.stringify(userResponse))
         const shouldBroadcast = {
             type: TYPES.USER_LOGGED_IN,
-            from: 'system',
             timestamp: Date.now(),
             user,
-            message: user.username+ ' joined!'
         }
         sendAll(shouldBroadcast, wss)
+        sendAll( {
+            type: TYPES.NEW_MESSAGE,
+            message: {
+                id : shortid.generate(),
+                message: user.username + ' joined!',
+                timestamp : Date.now(),
+                from: 'MeetingBot',
+            }
+        }, wss)
     }
     else {
         ws.userName = user.username
@@ -166,8 +173,18 @@ wss.on('connection', function connection(ws) {
                 sendAll({
                     type: TYPES.USER_DISCONNECTED,
                     username: userName,
-                    id
+                    id,
+                    timestamp: Date.now()
                 }, wss);
+                sendAll( {
+                    type: TYPES.NEW_MESSAGE,
+                    message: {
+                        id : shortid.generate(),
+                        message: userName+ ' left the meeting!',
+                        timestamp : Date.now(),
+                        from: 'MeetingBot',
+                    }
+                }, wss)
             }
         }
 
@@ -193,8 +210,18 @@ const interval = setInterval(function ping() {
                 sendAll({
                     type: TYPES.USER_DISCONNECTED,
                     userName,
-                    id
+                    id,
+                    timestamp: Date.now()
                 }, wss);
+                sendAll( {
+                    type: TYPES.NEW_MESSAGE,
+                    message: {
+                        id : shortid.generate(),
+                        message: userName+ ' left the meeting!',
+                        timestamp : Date.now(),
+                        from: 'MeetingBot',
+                    }
+                }, wss)
             }
             return 0
         }

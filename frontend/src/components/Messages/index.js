@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react"
+import React from "react"
 import styles from './Messages.module.css'
 import Message from "../Message";
 

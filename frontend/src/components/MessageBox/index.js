@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import styles from './MessageBox.module.css'
 
 const MessageBox = ({onSubmit, inputMessage, setInputMessage}) => {
@@ -9,8 +9,6 @@ const MessageBox = ({onSubmit, inputMessage, setInputMessage}) => {
 
     const onKeyDown = (event) => {
         if( event.keyCode === 13 ) {
-            console.log('called')
-
             onSubmit(inputMessage.trim())
         }
     }

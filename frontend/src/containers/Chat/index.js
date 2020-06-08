@@ -1,7 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react'
-import styles from './Chat.module.css'
 import {isJson} from "../../common";
-import {WebSocketProvider, WebSocketContext} from "../../context/WebSocket";
+import {WebSocketContext} from "../../context/WebSocket";
 import {TYPES, ACTIONS} from '../../constants'
 import Login from "../../components/Login";
 import ConversationBox from "../../components/ConversationBox";
@@ -15,8 +14,6 @@ const Chat = () => {
     const [participants, setParticipants] = useState(new Set())
 
     const handleIncomingMessage = ({data}) => {
-        console.log('incoming')
-        console.log(data)
         let newParticipants = new Set([])
         if( isJson(data) ) {
             const parsed = JSON.parse(data)
@@ -28,7 +25,7 @@ const Chat = () => {
                 case TYPES.CURRENT_USER:
                     setUserName(parsed.user.username)
                     newParticipants = new Set([])
-                    parsed.participants.map(participant => {
+                    parsed.participants.forEach(participant => {
                         newParticipants.add(participant.username)
                     })
                     setParticipants(newParticipants)
@@ -93,7 +90,6 @@ const Chat = () => {
                     action: ACTIONS.SEND_MESSAGE
                 }));
             } else {
-                console.log('edited')
                 ws.send(JSON.stringify({
                     payload: {
                         text,
@@ -114,7 +110,6 @@ const Chat = () => {
         }
     }
     const handleDeleteButton = id => {
-        console.log('delete', id)
         ws.send(JSON.stringify({
             action: ACTIONS.DELETE_MESSAGE,
             payload: {
