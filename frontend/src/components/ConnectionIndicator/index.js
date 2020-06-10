@@ -8,18 +8,25 @@ const ConnectionIndicator = ({connect, hasError, ws}) => {
                 ws !== null ? (
                     hasError === true ? (
                         <>
-                            <h1 className={styles.textCenter}>error</h1>
-                            <button onClick={connect} className={styles.submit}>reconnect</button>
+                            <h1 className={styles.textCenter}>Connection has error!</h1>
+                            <button onClick={connect} className={styles.submit}>Reconnect</button>
                         </>
                     ) : (<h3 className={styles.textCenter}>Connecting...</h3>)
                 ) : (
                     hasError === null ? (<h2 className={styles.textCenter}>Connecting...</h2>) :
+                        hasError === true ?
                         (
                             <>
-                                <h3 className={styles.textCenter}>Connection failed, Try to reconnect</h3>
-                                <button onClick={connect} className={styles.submit}>Connect</button>
+                                <h3 className={styles.textCenter}>Error in connection!</h3>
+                                <button onClick={connect} className={styles.submit}>Try Again</button>
                             </>
-                        )
+                        ) :
+                            (
+                                <>
+                                    <h3 className={styles.textCenter}>Disconnected Successfully</h3>
+                                    <button onClick={connect} className={styles.submit}>Connect</button>
+                                </>
+                            )
                 )
             }
         </div>

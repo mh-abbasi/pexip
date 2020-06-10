@@ -2,8 +2,9 @@ import React, {createContext, useEffect, useState} from 'react'
 
 const WebSocketContext = createContext({
     ws: null,
-    connect: null,
-    hasError: null
+    connect: () => {},
+    hasError: null,
+    disconnect: () => {}
 })
 
 const WebSocketProvider = ({children}) => {
@@ -16,18 +17,32 @@ const WebSocketProvider = ({children}) => {
     const [wsConnection, setWsConnection] = useState(null)
     const [hasError, setHasError] = useState(null)
 
+    const disconnect = () => {
+        if( wsConnection !== null ) {
+            wsConnection.close()
+            setWsConnection(null)
+            setHasError(false)
+        }
+    }
     const connect = () => {
+        setWsConnection(null)
+        setHasError(null)
         try {
             const ws = new WebSocket(address)
             ws.addEventListener('error',event => {
+                console.log('first?')
+                setWsConnection(null)
                 setHasError(true)
                 console.log('connection has an error', event)
             });
             ws.addEventListener('open', event => {
+                console.log('sage inja')
                 setWsConnection(ws)
             });
             ws.addEventListener('close', event => {
-                setHasError(false)
+                console.log('sage inja 2')
+                console.log(event)
+                setHasError(!event.wasClean)
                 setWsConnection(null)
             });
         }
@@ -42,7 +57,12 @@ const WebSocketProvider = ({children}) => {
     }, [])
 
     return (
-        <WebSocketContext.Provider value={{ws: wsConnection, connect: connect, hasError: hasError}}>
+        <WebSocketContext.Provider value={{
+            ws: wsConnection,
+            connect: connect,
+            hasError: hasError,
+            disconnect: disconnect
+        }}>
             {children}
         </WebSocketContext.Provider>
     )

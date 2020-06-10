@@ -8,7 +8,18 @@ const TABS = {
     MESSAGES : 'MESSAGES',
     PARTICIPANTS : 'PARTICIPANTS',
 }
-const ConversationBox = ({messages, editingMessage, participants, username, onSubmit, inputMessage, setInputMessage, handleEditButton, handleDeleteButton}) => {
+const ConversationBox = ({
+                             messages,
+                             onDisconnect,
+                             editingMessage,
+                             participants,
+                             username,
+                             onSubmit,
+                             inputMessage,
+                             setInputMessage,
+                             handleEditButton,
+                             handleDeleteButton
+}) => {
     const [tabToShow, setTabToShow] = useState(TABS.MESSAGES)
     return (
         <>
@@ -23,7 +34,12 @@ const ConversationBox = ({messages, editingMessage, participants, username, onSu
                     <div className={`${styles.tab} ${tabToShow === TABS.MESSAGES ? styles.activeTab : ''}`} onClick={() => setTabToShow(TABS.MESSAGES)}>Chat</div>
                 </div>
                 <div className={styles.chatContainer}>
-                    <ParticipantsList isShowing={tabToShow === TABS.PARTICIPANTS} participants={participants} />
+                    <ParticipantsList
+                        isShowing={tabToShow === TABS.PARTICIPANTS}
+                        participants={participants}
+                        username={username}
+                        onDisconnect={onDisconnect}
+                    />
                     <div className={`${styles.messagesContainer} ${tabToShow === TABS.MESSAGES ? styles.active : ''}`}>
                         <Messages
                             messages={messages}

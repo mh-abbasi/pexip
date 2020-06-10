@@ -7,7 +7,7 @@ import ConversationBox from "../../components/ConversationBox";
 import ConnectionIndicator from "../../components/ConnectionIndicator";
 
 const Chat = () => {
-    const {ws, connect, hasError} = useContext(WebSocketContext)
+    const {ws, connect, hasError, disconnect} = useContext(WebSocketContext)
     const [userName, setUserName] = useState(null)
     const [editingMessage, setEditingMessage] = useState(null)
     const [inputMessage, setInputMessage] = useState('')
@@ -15,8 +15,21 @@ const Chat = () => {
     const [participants, setParticipants] = useState(new Set())
 
     useEffect(() => {
+        console.log('ws', ws)
+        console.log('hasError', hasError)
+    }, [ws, hasError])
 
-    }, [])
+    const onDisconnect = () => {
+        if( ws !== null ) {
+            disconnect()
+        }
+        setUserName(null)
+        setEditingMessage(null)
+        setInputMessage('')
+        setMessages([])
+        setParticipants(new Set())
+    }
+
     const handleIncomingMessage = ({data}) => {
         let newParticipants = new Set([])
         if( isJson(data) ) {
@@ -70,8 +83,9 @@ const Chat = () => {
     }
 
     useEffect(() => {
-        if( ws && ws.readyState && hasError === false ) {
+        if( ws && ws.readyState ) {
             ws.addEventListener('message', handleIncomingMessage);
+            ws.addEventListener('close', onDisconnect)
         }
     }, [ws])
 
@@ -142,6 +156,7 @@ const Chat = () => {
                         inputMessage={inputMessage}
                         setInputMessage={setInputMessage}
                         participants={participants}
+                        onDisconnect={onDisconnect}
                     />
                 )}
         </>
