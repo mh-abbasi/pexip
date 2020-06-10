@@ -30,18 +30,14 @@ const WebSocketProvider = ({children}) => {
         try {
             const ws = new WebSocket(address)
             ws.addEventListener('error',event => {
-                console.log('first?')
                 setWsConnection(null)
                 setHasError(true)
                 console.log('connection has an error', event)
             });
             ws.addEventListener('open', event => {
-                console.log('sage inja')
                 setWsConnection(ws)
             });
             ws.addEventListener('close', event => {
-                console.log('sage inja 2')
-                console.log(event)
                 setHasError(!event.wasClean)
                 setWsConnection(null)
             });

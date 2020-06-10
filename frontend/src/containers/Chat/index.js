@@ -14,11 +14,6 @@ const Chat = () => {
     const [messages, setMessages] = useState([])
     const [participants, setParticipants] = useState(new Set())
 
-    useEffect(() => {
-        console.log('ws', ws)
-        console.log('hasError', hasError)
-    }, [ws, hasError])
-
     const onDisconnect = () => {
         if( ws !== null ) {
             disconnect()
