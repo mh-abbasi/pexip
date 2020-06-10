@@ -4,15 +4,19 @@ import {WebSocketContext} from "../../context/WebSocket";
 import {TYPES, ACTIONS} from '../../constants'
 import Login from "../../components/Login";
 import ConversationBox from "../../components/ConversationBox";
+import ConnectionIndicator from "../../components/ConnectionIndicator";
 
 const Chat = () => {
-    const {ws} = useContext(WebSocketContext)
+    const {ws, connect, hasError} = useContext(WebSocketContext)
     const [userName, setUserName] = useState(null)
     const [editingMessage, setEditingMessage] = useState(null)
     const [inputMessage, setInputMessage] = useState('')
     const [messages, setMessages] = useState([])
     const [participants, setParticipants] = useState(new Set())
 
+    useEffect(() => {
+
+    }, [])
     const handleIncomingMessage = ({data}) => {
         let newParticipants = new Set([])
         if( isJson(data) ) {
@@ -66,7 +70,7 @@ const Chat = () => {
     }
 
     useEffect(() => {
-        if( ws && ws.readyState ) {
+        if( ws && ws.readyState && hasError === false ) {
             ws.addEventListener('message', handleIncomingMessage);
         }
     }, [ws])
@@ -118,7 +122,8 @@ const Chat = () => {
         }))
     }
 
-    return (
+    return ws && ws.readyState === 1 ?
+        (
         <>
             {!userName
                 ?
@@ -140,7 +145,7 @@ const Chat = () => {
                     />
                 )}
         </>
-    )
+    ) : (<ConnectionIndicator connect={connect} ws={ws} hasError={hasError} />)
 }
 
 export default Chat
